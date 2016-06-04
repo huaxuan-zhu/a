@@ -34,7 +34,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     {
         if (item == null) throw new java.lang.NullPointerException();
         if(size + 1 > capacity)
-        resize(capacity * 2);
+            resize(capacity * 2);
         queue[size++] = item;
     }
     public Item dequeue()                    // remove and return a random item
@@ -45,7 +45,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         queue[idx] = queue[--size];
         queue[size] = null; // avoid loitering
         if(capacity > 4 && (size * 4 < capacity))  // avoid resizing back and forth
-        resize(capacity / 2);
+            resize(capacity / 2);
         return returned;
     }
     public Item sample()                     // return (but do not remove) a random item
@@ -67,7 +67,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
             shuffledIdx = new int[size];
             current = 0;
             for (int i = 0; i < size; ++i)
-            shuffledIdx[i] = i;
+                shuffledIdx[i] = i;
             StdRandom.shuffle(shuffledIdx);
         }
         public boolean hasNext()
