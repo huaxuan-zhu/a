@@ -6,7 +6,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     private int capacity, size;
     public RandomizedQueue()                 // construct an empty randomized queue
     {
-        capacity = 4;
+        capacity = 4; // avoid resize back and forth when size is small
         size = 0;
         queue = (Item[]) new Object[capacity];
     }
@@ -19,7 +19,8 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         return size;
     }
     private void resize(int newCap)
-    {
+    {// resize the queue by elementwise coping the old queue to the new one
+     // where newCap is the capacity of the new queue
         if (newCap <= 0) throw new java.lang.IndexOutOfBoundsException();
         if (newCap == capacity) return;
         int oldCap = capacity;
@@ -60,7 +61,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
     private class QueueIterator implements Iterator<Item>
     {
-        private int[] shuffledIdx;
+        private int[] shuffledIdx; // shuffled indices of original queue
         int current;
         public QueueIterator()
         {
