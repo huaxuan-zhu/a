@@ -1,6 +1,4 @@
-import edu.princeton.cs.algs4.WeightedQuickUnionUF;
-
-public class Percolation {
+public class MyPercolation {
     // used to accesse surrounding sites
     private static final int[] dx = {0, 1, 0, -1};
     private static final int[] dy = {1, 0, -1, 0};
@@ -16,7 +14,7 @@ public class Percolation {
     private WeightedQuickUnionUF qufObj;
     private byte[] status;
     private boolean isPercolate = false;
-    public Percolation(int N)               // create N-by-N grid, with all sites blocked
+    public MyPercolation(int N)               // create N-by-N grid, with all sites blocked
     {
         if(N <= 0)
             throw new java.lang.IllegalArgumentException();
@@ -33,7 +31,7 @@ public class Percolation {
         this.N = N;
         qufObj = new WeightedQuickUnionUF(N*N);
     }
-    
+
     public void open(int i, int j)          // open site (row i, column j) if it is not open already
     {
         if (i < 1 || j < 1 || i > N || j > N)
@@ -80,7 +78,55 @@ public class Percolation {
     {// percolate iff virtual top and bottom are connected
         return isPercolate;
     }
+    private class WeightedQuickUnionUF
+    {
+        private int[] rootId;
+        private int[] count;
 
+        public WeightedQuickUnionUF()
+        {
+            rootId = count = null;
+        }
+        public WeightedQuickUnionUF(int N)
+        {
+            rootId = new int[N];
+            for(int i = 0; i < N; ++i)
+            {
+                rootId[i] = i;
+                count[i] = 1;
+            }
+        }
+        public int find(int p)
+        {
+            int root = p;
+            while(root != rootId[root])
+            {
+                rootId[root] = rootId[rootId[root]];
+                root = rootId[root];
+            }
+            return root;
+        }
+        public boolean connected(int p, int q)
+        {
+            return find(p) == find(q);
+        }
+        public void union(int p, int q)
+        {
+            int rootP, rootQ;
+            rootP = find(p);
+            rootQ = find(q);
+            if(count[rootP] > count[rootQ])
+            {
+                count[rootP] += count[rootQ];
+                rootId[rootQ] = rootP;
+            }
+            else
+            {
+                count[rootQ] += count[rootP];
+                rootId[rootP] = rootQ;
+            }
+        }
+    }
     public static void main(String[] args)  // test client (optional)
     {}
 }
