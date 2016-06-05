@@ -10,6 +10,7 @@ See `Subset_naive.java` for details.
 It is a little tricky to comply with the requirement of space complexity O(K) - how can we do K random sampling if the number of input is not known in advance, or more specifically, without maintaining the whole input series?  
 To resolve this problem, we need to use an algorithm called [Reservoir Sampling](https://en.wikipedia.org/wiki/Reservoir_sampling).
 The main idea of this algorithm is shown below:
+
 1. We maintain a queue of size K, where K is the number of random sampling.
 In this case, K is the number of strings to be printed out.
 2. For the first K input, we simply enqueue each string.
@@ -22,6 +23,7 @@ Then shuffle the queue.
 
 This algorithm guarantees the sampling to be uniform, i.e., the probability of each element to be chosen is 1/N.
 This can be proved as below:
+
 1. If N is no larger than K, we can use Knuth Shuffling, which automatically ensures the uniform sampling.
 2. If N is larger than K, for the i-th element where i <= K, it may be replaced by the j-th element, where K < j <= N, at the probability of 1/j.
 Therefore, the probability of the i-th element remaining in the queue is  
