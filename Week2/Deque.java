@@ -29,9 +29,9 @@ public class Deque<Item> implements Iterable<Item> {
         Node newNode = new Node();
         newNode.value = item;
         newNode.next = head;
-        if (head != null) head.last = newNode;
-        head = newNode;
-        if (tail == null) tail = newNode;
+        if (head != null) head.last = newNode; // if not empty, update original head
+        head = newNode;                        // update head regardless empty or not
+        if (tail == null) tail = newNode;      // if empty
         size++;
     }
     public void addLast(Item item)           // add the item to the end
@@ -40,9 +40,9 @@ public class Deque<Item> implements Iterable<Item> {
         Node newNode = new Node();
         newNode.value = item;
         newNode.last = tail;
-        if (tail != null) tail.next = newNode;
-        tail = newNode;
-        if (head == null) head = newNode;
+        if (tail != null) tail.next = newNode; // if not empty, update orignal tail
+        tail = newNode;                        // update tail regardless empty or not
+        if (head == null) head = newNode;      // if empty
         size++;
     }
     public Item removeFirst()                // remove and return the item from the front
@@ -50,9 +50,9 @@ public class Deque<Item> implements Iterable<Item> {
         if (size == 0) throw new java.util.NoSuchElementException();
         Item removedValue = head.value;
         head = head.next;
-        if (head != null) // size > 1
+        if (head != null) // not empty
             head.last = null;
-        else             // size = 1
+        else              // empty
             tail = null;
         size--;
         return removedValue;
@@ -62,9 +62,9 @@ public class Deque<Item> implements Iterable<Item> {
         if (size == 0) throw new java.util.NoSuchElementException();
         Item removedValue = tail.value;
         tail = tail.last;
-        if (tail != null) // size > 1
+        if (tail != null) // not empty
             tail.next = null;
-        else              // size = 1
+        else              // empty
             head = null;
         size--;
         return removedValue;
