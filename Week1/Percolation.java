@@ -25,15 +25,15 @@ public class Percolation {
         for(int i = 0; i < N * N; ++i)
         {
             grid[i] = false;
-            if(i < N)
+            if(i < N)        // every site on top is connected to top
                 status[i] |= TOTOP;
-            if(i >= (N-1)*N)
+            if(i >= (N-1)*N) // every site on bottom is connected to bottom
                 status[i] |= TOBTTM;
         }
         this.N = N;
         qufObj = new WeightedQuickUnionUF(N*N);
     }
-    
+
     public void open(int i, int j)          // open site (row i, column j) if it is not open already
     {
         if (i < 1 || j < 1 || i > N || j > N)
@@ -56,7 +56,9 @@ public class Percolation {
             }
         }
         statusTemp |= status[ni*N + nj];
-        int newRoot = qufObj.find(ni*N + nj);
+        int newRoot = qufObj.find(ni*N + nj); // new root after union operations
+        // status of newRoot is determined by the statuses of the roots of four
+        // neighbors and the status of newly opened site
         status[newRoot] |= statusTemp;
         if(status[newRoot] == (TOTOP | TOBTTM | OPEN)) isPercolate = true;
     }

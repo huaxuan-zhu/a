@@ -14,6 +14,7 @@ public class MyPercolation {
     private WeightedQuickUnionUF qufObj;
     private byte[] status;
     private boolean isPercolate = false;
+
     public MyPercolation(int N)               // create N-by-N grid, with all sites blocked
     {
         if(N <= 0)
@@ -23,9 +24,9 @@ public class MyPercolation {
         for(int i = 0; i < N * N; ++i)
         {
             grid[i] = false;
-            if(i < N)
+            if(i < N)           // every site on top is connected to top
                 status[i] |= TOTOP;
-            if(i >= (N-1)*N)
+            if(i >= (N-1)*N)    // every site on bottom is connected to bottom
                 status[i] |= TOBTTM;
         }
         this.N = N;
@@ -54,7 +55,9 @@ public class MyPercolation {
             }
         }
         statusTemp |= status[ni*N + nj];
-        int newRoot = qufObj.find(ni*N + nj);
+        int newRoot = qufObj.find(ni*N + nj); // new root after union operations
+        // status of newRoot is determined by the statuses of the roots of four
+        // neighbors and the status of newly opened site
         status[newRoot] |= statusTemp;
         if(status[newRoot] == (TOTOP | TOBTTM | OPEN)) isPercolate = true;
     }
@@ -75,13 +78,13 @@ public class MyPercolation {
             (status[root] & TOTOP) > 0;
     }
     public boolean percolates()             // does the system percolate?
-    {// percolate iff virtual top and bottom are connected
+    {
         return isPercolate;
     }
     private class WeightedQuickUnionUF
     {
-        private int[] rootId;
-        private int[] count;
+        private int[] rootId; // the root of the node
+        private int[] count;  // the number of nodes of the tree, which the node is in
 
         public WeightedQuickUnionUF()
         {
@@ -99,6 +102,9 @@ public class MyPercolation {
         public int find(int p)
         {
             int root = p;
+            // Make every other node in the path point to its grandparent node.
+            // If a node only has a parent node, doesn't change.
+            // So that flaten the tree
             while(root != rootId[root])
             {
                 rootId[root] = rootId[rootId[root]];
@@ -115,6 +121,7 @@ public class MyPercolation {
             int rootP, rootQ;
             rootP = find(p);
             rootQ = find(q);
+            // link root of smaller tree to root of larger tree
             if(count[rootP] > count[rootQ])
             {
                 count[rootP] += count[rootQ];
