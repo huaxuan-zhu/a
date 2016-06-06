@@ -6,5 +6,8 @@ all:$(FILES)
 zip:$(FILES)
 	zip percolation.zip $(FILES)
 
+add:$(FILES)
+	git add $(FILES) Percolation_two_WQUUF.java MyPercolation.java Makefile Readme.md
+
 clean:
-	rm *.class
+	rm *.class *.zip
