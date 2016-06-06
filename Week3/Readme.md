@@ -29,9 +29,4 @@ Since the system sort `Arrays.sort()` uses mergesort for objects, which is stabl
 It is self-evident that the lowest and the highest point (with regard to `compareTo()` method, which first compares y-coordinate then x-coordinate to break ties) are endpoints. 
 Note that after the point array is sorted by slopes with regard to point *p*, the first element of the sorted array must be point *p* since the slope to itself is `NEGATIVE_INFINITY`.
 Therefore, we add to segment list if and only if the beginning point of the equal sequence is higher than the first point of the sorted array.
-And the endpoints of this segment are the first point of the sorted array(the lower endpoint) and the last point of the equal sequence(the higher endpoint).
-
-Miscellaneous:  
-Note that if x is +0.0 and y is -0.0 while (x == y) is guaranteed to be true, `Arrays.sort()` treats negative zero as strictly less than positive zero. 
-It may cause some problem when casting to wrapper type Double. 
-Therefore, to avoid any potential problem of signed zero, set all horizontal slopes to be +0.0.
+And the endpoints of this segment is the first point of the sorted array(the lower endpoint) and the last point of the equal sequence(the higher endpoint).
