@@ -10,4 +10,4 @@ clean:
 	rm *.class *.zip
 
 add:
-	git add $(FILES) Makefile
+	git add $(FILES) Makefile Readme.md

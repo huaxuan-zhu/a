@@ -4,35 +4,34 @@ import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.Stack;
 
 public class Solver {
-    private int totalMoves;
-    private Node current;
+    private int totalMoves; // minimum moves to reach goal
+    private Node current;   // current node in priority queue
 
     public Solver(Board initial) // find a solution to the initial board (using the A* algorithm)
     {
         MinPQ<Node> nodePq = new MinPQ<Node>();
         Node initNode, initNodeTwin;
-        // StdOut.println(initial.twin());
         initNode = new Node(initial, 0);
         initNodeTwin = new Node(initial.twin(), 0); // note twin() do deep copy and swap
         initNodeTwin.setTwin();
         nodePq.insert(initNode);
         nodePq.insert(initNodeTwin);
         current = nodePq.delMin();
-        // StdOut.println(current.getBoard());
         while (!current.isGoal())
         {
             for (Board b : current.neighbors())
             {
                 Node currPrev = current.getPrev();
+                // get rid of previous node
                 if (currPrev != null && b.equals(currPrev.getBoard())) continue;
                 Node newNode = new Node(b, current.getMoves() + 1);
                 newNode.setPrev(current);
                 if (current.isTwin()) newNode.setTwin();
                 nodePq.insert(newNode);
-                // StdOut.println("haha");
             }
             current = nodePq.delMin();
         }
+        // if goal is hitted from twin node, original node is unsolvable
         if (current.isTwin())
             totalMoves = -1;
         else
