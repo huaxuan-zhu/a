@@ -171,7 +171,6 @@ public class Board {
         s.append(N + "\n");
         for (int i = 0; i < N*N; i++) {
             s.append(String.format("%2d ", blocks[i]));
-            // System.out.println(blocks[i]);
             if (i % N  == N - 1)
                 s.append("\n");
         }
